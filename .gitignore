@@ -1,0 +1,7 @@
+.bash_history
+.cache/
+.idea/
+.local/
+__pycache__/
+run/
+venv/

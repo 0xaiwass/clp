@@ -1,0 +1,19 @@
+/* Only CKEditor5 editable area in admin */
+.ck.ck-editor__main > .ck-editor__editable {
+    background-color: #1e1e1e !important; /* Dark editor background */
+    color: #f5f5f5 !important;            /* Light text */
+}
+
+/* Dark toolbar */
+.ck.ck-toolbar {
+    background-color: #2c2c2c !important;
+    border-color: #444 !important;
+}
+
+/* Toolbar buttons */
+.ck.ck-button {
+    color: #fff !important;
+}
+.ck.ck-button:hover {
+    background-color: #444 !important;
+}

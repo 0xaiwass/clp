@@ -1,0 +1,166 @@
+{% load humanize %}
+{% load static %}
+{% load compress %}
+<!-- Cart -->
+<div class="cart" id="miniCart">
+    <!-- HEADER -->
+    <div class="flex items-center justify-between pb-2 border-b-2 border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-300">
+        <h2 class="font-DanaMedium text-lg">سبد خرید</h2>
+        <svg class="size-5 cursor-pointer close-cart mb-.5">
+            <use href="#x-mark"></use>
+        </svg>
+    </div>
+
+    <!-- MAIN: items will be injected here -->
+    <div class="flex flex-col divide-y-2 divide-gray-200 dark:divide-gray-600 my-4" id="miniCartItems">
+        <!-- JS will populate items dynamically -->
+    </div>
+
+    <!-- FOOTER -->
+    <div class="w-[90%] fixed bottom-2 flex items-center justify-between border-t-2 border-gray-200 dark:border-gray-600 pt-4">
+        <div>
+            <p class="text-gray-500 dark:text-gray-300 text-sm">مبلغ قابل پرداخت :</p>
+            <p class="text-lg text-blue-500 dark:text-blue-400 font-DanaDemiBold" id="miniCartTotal">
+                0 تومان
+            </p>
+        </div>
+        <a href="{% url 'orders:order_create' %}"
+           class="py-2 px-4 bg-blue-600 flex-center hover:bg-blue-700 transition-all rounded-lg text-gray-200">
+            ثبت سفارش
+        </a>
+    </div>
+</div>
+{% compress js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const itemsContainer = document.getElementById('miniCartItems');
+        const totalEl = document.getElementById('miniCartTotal');
+
+        function formatPrice(num) {
+            return Number(num || 0).toLocaleString('fa-IR') + ' تومان';
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                document.cookie.split(';').forEach(c => {
+                    const cookie = c.trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    }
+                });
+            }
+            return cookieValue;
+        }
+
+        function renderEmptyCart() {
+            itemsContainer.innerHTML = `
+            <div class="text-center text-gray-500 dark:text-gray-300 py-6 font-DanaMedium">
+                🛒 سبد خرید خالی است
+            </div>
+        `;
+            totalEl.textContent = '۰ تومان';
+        }
+
+        function loadMiniCart() {
+            fetch("{% url 'carts:cart_items' %}")
+            .then(res => res.json())
+            .then(data => {
+                itemsContainer.innerHTML = '';
+
+                if (!data.items.length) {
+                    renderEmptyCart();
+                    return;
+                }
+
+                data.items.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'relative grid grid-cols-12 gap-x-2 w-full py-4 transition-opacity duration-300';
+                    div.dataset.id = item.id;
+
+                    div.innerHTML = `
+                    <!-- Delete button (top-left) -->
+                    <button class="delete-cart-item absolute top-0 left-0 text-red-500 p-1" data-id="${item.id}">
+                        <svg class="w-5 h-5"><use href="#x-mark"></use></svg>
+                    </button>
+
+                    <!-- Product image -->
+                    <div class="col-span-4 w-24 h-20">
+                        <img src="${item.image || '/static/images/products/1.png'}" class="rounded-lg" alt="${item.name}">
+                    </div>
+
+                    <!-- Product details -->
+                    <div class="col-span-8 flex flex-col justify-between">
+                        <h2 class="font-DanaMedium line-clamp-2">${item.name}</h2>
+                        <div class="flex items-center justify-between gap-x-2 mt-2">
+                            <span>تعداد: ${item.quantity}</span>
+                        </div>
+                        <div class="flex items-center justify-between gap-x-2 mt-2">
+                            <span>قیمت: ${formatPrice(item.price)}</span>
+                        </div>
+                    </div>
+                `;
+                    itemsContainer.appendChild(div);
+                });
+
+                totalEl.textContent = formatPrice(data.total);
+            })
+            .catch(err => console.error(err));
+        }
+
+        // Initial load
+        loadMiniCart();
+
+        // Add-to-cart buttons
+        const addBtns = document.querySelectorAll('[id^="addToCartBtn-"]');
+        addBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const pid = btn.dataset.productId;
+                const qtyInput = document.getElementById(`quantityInput-${pid}`);
+                const qty = qtyInput ? Number(qtyInput.value) : 1;
+
+                const url = `{% url 'carts:add_to_cart' %}?product_model=${btn.dataset.productModel}&product_id=${pid}&quantity=${qty}`;
+                window.location.href = url;
+            });
+        });
+
+        // Delete cart item smoothly
+        itemsContainer.addEventListener('click', function(e) {
+            const btn = e.target.closest('.delete-cart-item');
+            if (!btn) return;
+
+            const itemId = btn.dataset.id;
+            const url = `{% url 'carts:cart_item_delete' 0 %}`.replace('/0/', `/${itemId}/`);
+            const itemDiv = btn.closest('div[data-id]');
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Accept': 'application/json'
+                },
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && itemDiv) {
+                    itemDiv.style.opacity = 0;
+                    setTimeout(() => {
+                        itemDiv.remove();
+
+                        // Check if cart is empty
+                        if (!itemsContainer.querySelector('[data-id]')) {
+                            renderEmptyCart();
+                        } else {
+                            // Update total
+                            fetch("{% url 'carts:cart_items' %}")
+                            .then(res => res.json())
+                            .then(data => totalEl.textContent = formatPrice(data.total));
+                        }
+                    }, 300);
+                }
+            })
+            .catch(err => console.error(err));
+        });
+    });
+</script>
+{% endcompress %}

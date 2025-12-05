@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% include 'messages.html' %}
+{% block aboutus %}
+
+    <main class="container">
+        <!-- Breadcrumb -->
+        <nav class="flex mt-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                <li class="inline-flex items-center">
+                    <a href="{% url 'home:home' %}"
+                       class="inline-flex items-center text-sm gap-x-1  text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                        <svg class="size-4 mb-0.5">
+                            <use href="#home"></use>
+                        </svg>
+                        صفحه اصلی
+                    </a>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="m1 9 4-4-4-4"></path>
+                        </svg>
+                        <span class="ms-1 text-sm  text-gray-500 md:ms-2 dark:text-gray-400">درباره ما</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- aboute us -->
+        <section class="w-full p-5 rounded-lg shadow bg-white dark:bg-gray-800 mt-8">
+            <div class="w-full">
+                <!-- Logo -->
+                <a href="{% url "home:home" %}" class="flex flex-col text-center w-fit mx-auto">
+                    <span class="font-MorabbaMedium text-4xl flex items-center justify-center h-36">
+                        <img src="{% static 'images/favicon2.png' %}" alt="Logo">
+                    </span>
+                    <p class="font-DanaMedium text-gray-400 text-center">تنها نمایندگی رسمی سی‌‌ال‌پی موجود در ایران</p>
+                </a>
+                <p class="mt-3 leading-10 text-gray-600 dark:text-gray-300 text-center">
+                    به <strong>CLP Guitar</strong> خوش آمدید.<br>
+                    کارگاه و فروشگاهی با بیش از ۱۵ سال تجربه در ساخت و طراحی <strong>گیتارهای برقی</strong> و تجهیزات موسیقی.
+                </p>
+
+                <p class="mt-3 leading-10 text-gray-600 dark:text-gray-300 text-center">
+                    <strong>CLP</strong> حاصل سال‌ها تجربه، تحقیق و عشق بی‌پایان به دنیای گیتار الکتریک است.
+                    ما باور داریم که <strong>صدای عالی از ساخت دقیق، مهندسی حرفه‌ای و درک نیاز نوازنده</strong> شکل می‌گیرد.
+                    به همین دلیل، در CLP هر قطعه با دقت و وسواس ساخته می‌شود — از پیکاپ‌های دست‌پیچ و بریج‌های CNC داخلی گرفته تا آمپلی‌فایرها و گیتارهای الکتریک حرفه‌ای.
+                </p>
+
+                <p class="mt-3 italic text-gray-600 dark:text-gray-400 text-center">
+                    CLP Guitar، جایی که صدا از دل چوب جان می‌گیرد.
+                </p>
+
+                <h2 class="mt-6 font-DanaMedium text-xl text-center">
+                    خدمات ما
+                </h2>
+
+                <ul class="mt-3 text-gray-600 dark:text-gray-300 space-y-2 child:flex child:items-center child:gap-x-2">
+                    <li>
+                        <span class="w-3 h-3 rounded-full bg-blue-500 hidden lg:flex text-center"></span>
+                        <p>ساخت گیتارهای منحصر به فرد با ترکیب <strong>رزین اپوکسی</strong> و بهترین چوب‌های طبیعی.</p>
+                    </li>
+                    <li>
+                        <span class="w-3 h-3 rounded-full bg-blue-500 hidden lg:flex text-center"></span>
+                        <p>مشاوره تخصصی پیش از خرید برای انتخاب مناسب‌ترین گیتار بر اساس سبک و نیاز شما.</p>
+                    </li>
+                    <li>
+                        <span class="w-3 h-3 rounded-full bg-blue-500 hidden lg:flex text-center"></span>
+                        <p>خدمات ضبط، میکس و مسترینگ آهنگ‌ها در استودیو حرفه‌ای <strong>CLP</strong>.</p>
+                    </li>
+                    <li>
+                        <span class="w-3 h-3 rounded-full bg-blue-500 hidden lg:flex text-center"></span>
+                        <p>بسته‌بندی امن و ارسال سریع به سراسر کشور، همراه با پشتیبانی در صورت خرابی حین باربری.</p>
+                    </li>
+                </ul>
+
+                <h2 class="mt-6 font-DanaMedium text-xl text-center">
+                    چشم‌انداز ما
+                </h2>
+
+                <p class="mt-3 leading-10 text-gray-600 dark:text-gray-300 text-center">
+                    چشم‌انداز <strong>CLP Guitar</strong> خلق <strong>گیتارهای کاستوم</strong> و تجهیزات موسیقی است که فراتر از یک ساز، به اثری هنری و شخصی برای هر نوازنده تبدیل شوند.
+                    ما می‌خواهیم نخستین انتخاب نوازندگان حرفه‌ای و عاشقان موسیقی در ایران برای سفارش گیتارهای شخصی باشد.
+                    با حفظ کیفیت ساخت، نوآوری در طراحی و احترام به ذوق نوازندگان، به دنبال گسترش مرزهای <strong>گیتارسازی حرفه‌ای</strong> ایرانی هستیم.
+                </p>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}

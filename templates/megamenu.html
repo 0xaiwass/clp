@@ -1,0 +1,113 @@
+<div id="megamenu" class="megamenu hidden lg:flex">
+    <!-- RIGHT MENU (Category tabs) -->
+    <ul class="megamenu_category">
+        <li class="megamenu_category-item active">
+            <svg class="w-5 h-5"><use href="#guitar"></use></svg>
+            <a href="{% url 'products:products' %}?category=clp">گیتار CLP</a>
+        </li>
+
+        <li class="megamenu_category-item">
+            <svg class="w-5 h-5"><use href="#amp"></use></svg>
+            <a href="{% url 'products:products' %}?category=amp">امپ</a>
+        </li>
+        <li class="megamenu_category-item">
+            <svg class="w-5 h-5"><use href="#equipment"></use></svg>
+            <a href="{% url 'products:products' %}?category=equipment">لوازم جانبی</a>
+        </li>
+    </ul>
+
+    <!-- LEFT MENU (Submenus per category) -->
+    <div class="megamenu_left">
+        <!-- CLP Series -->
+        <ul class="megamenu_left-item active">
+            <div class="megamenu_left-menu">
+                <h2 class="megamenu_left-title">CLP-EX Series</h2>
+                <li>
+                    <a href="{% url 'products:products' %}?category=clp&series=EX">مدل‌های سری EX</a>
+                </li>
+            </div>
+            <div class="megamenu_left-menu">
+                <h2 class="megamenu_left-title">CLP-LS Series</h2>
+                <li>
+                    <a href="{% url 'products:products' %}?category=clp&series=LS">مدل‌های سری LS</a>
+                </li>
+            </div>
+            <div class="megamenu_left-menu">
+                <h2 class="megamenu_left-title">CLP-S Series</h2>
+                <li>
+                    <a href="{% url 'products:products' %}?category=clp&series=S">مدل‌های سری S</a>
+                </li>
+            </div>
+        </ul>
+
+        <!-- AMPs -->
+        <ul class="megamenu_left-item">
+            <div class="megamenu_left-menu">
+                <h2 class="megamenu_left-title">امپ</h2>
+                <li>
+                    <a href="{% url 'products:products' %}?category=amp&type=Transistor">ترانزیستوری</a>
+                </li>
+            </div>
+        </ul>
+        <!-- Equipment -->
+        <ul class="megamenu_left-item">
+            <div class="megamenu_left-menu">
+                <h2 class="megamenu_left-title">لوازم جانبی</h2>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment&type=strap">استرپ</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment&type=pick">پیک</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment&type=cleaner">تمیزکننده</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment&type=cable">کابل</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment&type=capo">کاپو</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment">همه ...</a>
+                </li>
+            </div>
+            <div class="megamenu_left-menu">
+                <h2 class="megamenu_left-title">سیم گیتار</h2>
+                <li>
+                    <a href="{% url 'products:products' %}?category=guitarstrings&type=electric">گیتار الکتریک</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=guitarstrings&type=classic">گیتار کلاسیک</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=guitarstrings&type=acoustic">گیتار آکوستیک</a>
+                </li>
+            </div>
+            <div class="megamenu_left-menu">
+                <h2 class="megamenu_left-title">تجهیزات گیتار الکتریک</h2>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment&type=body">بدنه</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment&type=neck">دسته و فرت‌بورد</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment&type=bridge">بریج</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment&type=pickup">پیکاپ</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment&type=selector">سلکتور</a>
+                </li>
+                 <li>
+                    <a href="{% url 'products:products' %}?category=equipment&typetrussrod">تراس رود</a>
+                </li>
+                <li>
+                    <a href="{% url 'products:products' %}?category=equipment">همه ...</a>
+                </li>
+            </div>
+        </ul>
+    </div>
+</div>
