@@ -6,9 +6,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-w_0-odpl+sd4=vc$xyxah#pnb=df+(rb@a+4#$c4p+x&#a-tal'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["clpguitar.com","www.clpguitar.com",'141.11.250.14']
 
 # Session config: 1-hour idle timeout, secure cookies
 SESSION_COOKIE_AGE = 3600  # 1 hour max (from last activity)
