@@ -32,26 +32,26 @@ colorButtons?.forEach((button) => {
 
 
 // TEXT SLIDER 
-document.addEventListener("DOMContentLoaded", () => {
-    const texts = [
-        { text: "🔥 ۱۰۰۰+ فروش در هفته گذشته", color: "text-red-500" },
-        { text: "💯 ۵۰۰+ نفر بیش از ۲ بار این کالا را خریده‌اند", color: "text-green-600" },
-        { text: "🛒 در سبد خرید ۱۰۰۰+ نفر", color: "text-blue-600" }
-    ];
+//document.addEventListener("DOMContentLoaded", () => {
+//    const texts = [
+//        { text: "🔥 ۱۰۰۰+ فروش در هفته گذشته", color: "text-red-500" },
+//        { text: "💯 ۵۰۰+ نفر بیش از ۲ بار این کالا را خریده‌اند", color: "text-green-600" },
+//        { text: "🛒 در سبد خرید ۱۰۰۰+ نفر", color: "text-blue-600" }
+//    ];
 
-    let index = 0;
-    const slider = document.getElementById("slider-text");
+//    let index = 0;
+//    const slider = document.getElementById("slider-text");
 
-    setInterval(() => {
-        index = (index + 1) % texts.length;
-        slider.classList.add("opacity-0");
+//    setInterval(() => {
+//        index = (index + 1) % texts.length;
+//        slider.classList.add("opacity-0");
 
-        setTimeout(() => {
-            slider.innerHTML = `<p class="${texts[index].color}">${texts[index].text}</p>`;
-            slider.classList.remove("opacity-0");
-        }, 300);
-    }, 3000);
-});
+//        setTimeout(() => {
+//            slider.innerHTML = `<p class="${texts[index].color}">${texts[index].text}</p>`;
+//            slider.classList.remove("opacity-0");
+//        }, 300);
+//    }, 3000);
+//});
 
 
 

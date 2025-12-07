@@ -50,21 +50,14 @@
 
         <div class="flex items-center justify-center">
             <div class="flex flex-col text-center">
-                <span class="font-MorabbaMedium text-4xl flex items-center" content="">
-                      گیتار
-                    <span class="text-blue-500">
-                        CLP
-                    </span>
-                </span>
+                <img src="{% static 'images/favicon2.png' %}" alt="Logo" class="h-28 block">
             </div>
         </div>
         {% include 'messages.html' %}
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <p class="mb-2 text-gray-800 dark:text-gray-100 font-DanaMedium text-lg">ورود </p>
             <form class="space-y-5" action="#" method="POST">
                 {% csrf_token %}
                 <div>
-
                     <div class="mt-3">
                         شماره موبایل{{ form.phone }}
                     </div>

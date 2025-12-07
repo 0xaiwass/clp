@@ -30,8 +30,8 @@ const alerts = {
     'server-error': ['خطای سرور!', 'مشکلی در ارتباط با سرور پیش آمده است.', 'error']
 };
 
-Object.keys(alerts).forEach(id => {
-    document.getElementById(id).addEventListener('click', function () {
-        showAlert(...alerts[id]);
-    });
-});
+//Object.keys(alerts).forEach(id => {
+//    document.getElementById(id).addEventListener('click', function () {
+//        showAlert(...alerts[id]);
+//    });
+//});
