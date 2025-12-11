@@ -259,6 +259,11 @@ class GuitarStrings(Base):
         TENSION_12_54 = '12-54', '12-54'
         TENSION_10_46 = '10-46', '10-46'
         TENSION_9_42 = '9-42', '9-42'
+        TENSION_11_48 = '11-48', '11-48'
+        TENSION_12_56 = '12-56', '12-56'
+        TENSION_10_52 = '10-52', '10-52'
+        TENSION_9_46 = '9-46', '9-46'
+        TENSION_11_54 = '11-54', '11-54'
 
     tension = models.CharField(max_length=30, null=True, blank=True,
                                choices=StringTensionChoices.choices, verbose_name="سایز سیم")

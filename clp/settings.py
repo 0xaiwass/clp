@@ -206,3 +206,17 @@ BLEACH_ALLOWED_PROTOCOLS = ["http", "https"]
 # Remove any disallowed tags completely
 BLEACH_STRIP_TAGS = True
 ################################################################
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'ERROR',
+    },
+}
+
