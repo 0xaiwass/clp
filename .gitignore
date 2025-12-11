@@ -5,5 +5,4 @@
 __pycache__/
 run/
 venv/
-clp/settings.py
 staticfiles/
