@@ -122,12 +122,14 @@
                                 / {{ verbose_name }} / {{ product.name }} /
                             </a>
                             <div class="hidden md:flex items-center gap-x-2">
+                                {% if request.user.is_authenticated %}
                                 <div class="tooltip">
                                     <button class="rounded-full p-1.5 app-border app-hover">
                                         <svg class="size-4 md:size-5"><use href="#heart"></use></svg>
                                     </button>
                                     <div class="tooltiptext">علاقه‌مندی</div>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -273,14 +275,6 @@
                             <!-- product header -->
                             <div class="product-card_header">
                                 <div class="flex items-center gap-x-2">
-                                    <div class="tooltip">
-                                        <button class="rounded-full p-1.5 app-border app-hover">
-                                            <svg class="size-4">
-                                                <use href="#heart"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="tooltiptext">علاقه مندی</div>
-                                    </div>
                                 </div>
                                 <!-- badge offer -->
                                 {% if latest.off_percent and latest.off_percent > 0 %}

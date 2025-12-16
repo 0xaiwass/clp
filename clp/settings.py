@@ -192,12 +192,22 @@ CKEDITOR_5_CONFIGS = {
 #########################BLEACH#################################
 # Allowed HTML tags
 BLEACH_ALLOWED_TAGS = [
-    "b", "i", "u", "em", "strong", "a"
+    "h1", "h2", "h3", "h4", "h5", "h6",
+    "p", "br",
+    "b", "i", "u", "em", "strong",
+    "a",
+    "ul", "ol", "li",
+    "blockquote",
+    "code", "pre",
+    "img",
+    "table", "thead", "tbody", "tr", "th", "td",
 ]
 
 # Allowed attributes for tags
 BLEACH_ALLOWED_ATTRIBUTES = {
-    "a": ["href", "title"]
+    "a": ["href", "title", "target", "rel"],
+    "img": ["src", "alt", "width", "height"],
+    "*": ["class", "style"],
 }
 
 # Allowed URL protocols
