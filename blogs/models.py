@@ -5,15 +5,14 @@ from django.urls import reverse
 from django_ckeditor_5.fields import CKEditor5Field
 from accounts.models import User
 from bleach import clean as bleach_clean
+from django.utils.html import strip_tags
 ########################################################
 class BlogCategory(models.Model):
     class CategoryType(models.TextChoices):
-        TUTORIALS = 'tutorials', 'tutorials'
-        NEWS = 'news', 'news'
-        DOCUMENTARY = 'documentary', 'documentary'
-        WORKSHOP = 'workshop', 'workshop'
-        PRODUCT_VIDEOS = 'product_videos', 'product_videos'
-        CLP = 'clp', 'clp'
+        TUTORIALS = 'tutorials', 'آموزشی'
+        NEWS = 'news', 'اخبار'
+        WORKSHOP = 'workshop', 'فعالیت های مجموعه'
+        PRODUCT_VIDEOS = 'product_videos', 'معرفی محصولات'
     type = models.CharField(max_length=30, choices=CategoryType.choices, unique=True)
     slug = models.SlugField(max_length=255, unique=True, blank=True, allow_unicode=True)
 
@@ -60,6 +59,10 @@ class BlogPost(models.Model):
     author = models.CharField(max_length=100, blank=True, null=True)
     published = models.BooleanField(default=False)
 
+    excerpt = models.TextField(blank=True)
+    reading_time = models.PositiveIntegerField(default=1)
+
+
     class Meta:
         ordering = ['-created_at']
         indexes = [
@@ -71,6 +74,12 @@ class BlogPost(models.Model):
             self.slug = slugify(self.title, allow_unicode=True)
         if not self.meta_title:
             self.meta_title = self.title[:60]
+        if not self.excerpt:
+            text = strip_tags(self.content)
+            self.excerpt = text[:160]
+
+        word_count = len(strip_tags(self.content).split())
+        self.reading_time = max(1, word_count // 200)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):

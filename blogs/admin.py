@@ -1,5 +1,15 @@
 from django.contrib import admin
 from .models import *
+from django import forms
+###################################################################################
+class RTLTextArea(forms.Textarea):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("attrs", {}).update({
+            "style": "direction: rtl; text-align: right;",
+            "rows": 6,
+            "cols": 80,
+        })
+        super().__init__(*args, **kwargs)
 ###################################################################################
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
@@ -38,6 +48,12 @@ class BlogPostAdmin(admin.ModelAdmin):
             'fields': ('created_at',)
         }),
     )
+
+    class Media:
+        css = {
+            "all": ("admin/css/dark_ckeditor.css",)
+        }
+
 
     def preview_link(self, obj):
         from django.utils.html import format_html

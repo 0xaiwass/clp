@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 ########################################################################
 class BlogsView(View):
     def get(self, request):
-        posts_qs = BlogPost.objects.filter(published=True).order_by('-created_at')
+        posts_qs = BlogPost.objects.filter(published=True).order_by('-created_at').select_related('category').prefetch_related('tags')
         paginator = Paginator(posts_qs, 6)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
