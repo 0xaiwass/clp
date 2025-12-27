@@ -6,22 +6,29 @@
     <meta name="description" content="{{ blog.meta_description|default:blog.title|default:blog.excerpt }}">
     <meta name="keywords" content="{{ blog.meta_keywords|default:blog.category.name }}">
     <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <!-- Article Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Article",
+      "@type": "BlogPosting",
       "headline": "{{ blog.title|escapejs }}",
+      "description": "{{ blog.meta_description|default:blog.excerpt|escapejs }}",
       {% if blog.image %}
       "image": ["{{ blog.image.url }}"],
       {% endif %}
       "datePublished": "{{ blog.created_at|date:'c' }}",
+      "dateModified": "{{ blog.updated_at|date:'c'|default:blog.created_at|date:'c' }}",
       "author": {
-        "@type": "Person",
-        "name": "{{ blog.author.get_full_name|default:'CLP Guitar' }}"
+        "@type": "Organization",
+        "name": "CLP Guitar"
       },
       "publisher": {
         "@type": "Organization",
-        "name": "CLP Guitar"
+        "name": "CLP Guitar",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://clpguitar.com/static/images/logo.png"
+        }
       },
       "mainEntityOfPage": {
         "@type": "WebPage",
@@ -29,6 +36,31 @@
       }
     }
     </script>
+
+<!-- Brand / Organization Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CLP Guitar",
+  "alternateName": [
+    "سی ال پی گیتار",
+    "CLP",
+    "clp",
+    "CLPGuitar",
+    "CLPguitar",
+    "clpguitra"
+  ],
+  "url": "https://clpguitar.com",
+  "logo": "https://clpguitar.com/static/images/logo.png",
+  "description": "CLP Guitar تولیدی گیتار الکتریک در ایران با تمرکز بر طراحی و ساخت گیتار الکتریک تولید ملی.",
+  "foundingLocation": {
+    "@type": "Country",
+    "name": "Iran"
+  }
+}
+</script>
+    
 {% endblock %}
 
 {% block content %}
@@ -86,7 +118,7 @@
                         <svg class="w-4 h-4">
                             <use href="#list-bullet"></use>
                         </svg>
-                        <p>دسته‌بندی : {{ blog.category.name }}</p>
+                        <p>دسته‌بندی : {{ blog.category.get_type_display }}</p>
                     </span>
                         <span class="flex items-center gap-x-1 text-gray-400">
                         <svg class="w-4 h-4">
@@ -180,7 +212,7 @@
                         {% for category in categories %}
                             <li class="flex justify-between items-center cursor-pointer group">
                         <span class="flex items-center gap-x-1 group-hover:text-blue-500 transition-all">
-                            <p>{{ category.name }}</p>
+                            <p>{{ category.get_type_display }}</p>
                             <svg class="w-4 h-4">
                                 <use href="#chevron-left"></use>
                             </svg>

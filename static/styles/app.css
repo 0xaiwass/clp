@@ -4185,7 +4185,7 @@ img {
 
 .article-box:is(.dark *) {
   --tw-bg-opacity: 1 !important;
-  background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1)) !important;
+  background-color: rgb(90 0 0 / var(--tw-bg-opacity, 1)) !important;
 }
 
 @media (min-width: 1024px) {
@@ -4195,7 +4195,7 @@ img {
 }
 
 .article-box {
-  height: 19rem !important;
+  height: 21rem !important;
   width: auto !important;
   cursor: pointer !important;
   border-radius: 0.5rem !important;
@@ -4215,7 +4215,7 @@ img {
 
 .article-box:is(.dark *) {
   --tw-bg-opacity: 1 !important;
-  background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1)) !important;
+  background-color: rgb(90 0 0 / var(--tw-bg-opacity, 1)) !important;
 }
 
 .article-box_img {
