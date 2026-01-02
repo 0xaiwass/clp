@@ -8,4 +8,5 @@ urlpatterns = [
     path('<uuid:order_id>/', OrderDetailView.as_view(), name='order_detail'),
     path('<uuid:order_id>/delete/', OrderDeleteView.as_view(), name='order_delete'),
     path("remove/<uuid:item_id>/", RemoveOrderItemView.as_view(), name="remove_item"),
+    path("<uuid:order_id>/verify/", VerifyPaymentView.as_view(), name="verify_payment"),
 ]

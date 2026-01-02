@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
+{% load compress %}
 {% load static %}
 {% block title %}{{ blog.meta_title|default:blog.title }} | clpguitar{% endblock %}
 
 {% block meta %}
     <meta name="description" content="{{ blog.meta_description|default:blog.title|default:blog.excerpt }}">
-    <meta name="keywords" content="{{ blog.meta_keywords|default:blog.category.name }}">
+    <meta name="keywords" content="{{ blog.meta_keywords }}">
     <link rel="canonical" href="{{ request.build_absolute_uri }}">
     <!-- Article Schema -->
+    {% compress js %}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -36,31 +38,30 @@
       }
     }
     </script>
-
-<!-- Brand / Organization Schema -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "CLP Guitar",
-  "alternateName": [
-    "سی ال پی گیتار",
-    "CLP",
-    "clp",
-    "CLPGuitar",
-    "CLPguitar",
-    "clpguitra"
-  ],
-  "url": "https://clpguitar.com",
-  "logo": "https://clpguitar.com/static/images/logo.png",
-  "description": "CLP Guitar تولیدی گیتار الکتریک در ایران با تمرکز بر طراحی و ساخت گیتار الکتریک تولید ملی.",
-  "foundingLocation": {
-    "@type": "Country",
-    "name": "Iran"
-  }
-}
-</script>
-    
+    <!-- Brand / Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "CLP Guitar",
+      "alternateName": [
+        "سی ال پی گیتار",
+        "CLP",
+        "clp",
+        "CLPGuitar",
+        "CLPguitar",
+        "clpguitra"
+      ],
+      "url": "https://clpguitar.com",
+      "logo": "https://clpguitar.com/static/images/logo.png",
+      "description": "CLP Guitar تولیدی گیتار الکتریک در ایران با تمرکز بر طراحی و ساخت گیتار الکتریک تولید ملی.",
+      "foundingLocation": {
+        "@type": "Country",
+        "name": "Iran"
+      }
+    }
+    </script>
+    {% endcompress %}
 {% endblock %}
 
 {% block content %}
@@ -107,11 +108,10 @@
                     <div class="flex flex-col lg:flex-row gap-y-3 lg:items-center lg:justify-between">
                         <h2 class="font-DanaDemiBold text-lg lg:text-2xl">{{ blog.title }}</h2>
                         <span class="flex items-center gap-x-1 text-blue-500 cursor-pointer">
-                        <svg class="w-4 h-4">
-                            <use href="#share"></use>
-                        </svg>
-                        <p class="font-DanaMedium">اشتراک گذاری</p>
-                    </span>
+                            <svg class="w-4 h-4">
+                                <use href="#share"></use>
+                            </svg>
+                        </span>
                     </div>
                     <div class="flex flex-wrap items-center gap-y-3 gap-x-8 text-sm">
                     <span class="flex items-center gap-x-1 text-gray-400">
@@ -143,6 +143,7 @@
                     </div>
                 </div>
                  <!-- COMMENTS -->
+                <!--
                 <div class="mt-8 w-full lg:w-3/4 px-4 lg:px-8 py-4 rounded-lg bg-white dark:bg-gray-800 shadow">
                     <h3 class="font-DanaDemiBold text-lg mb-4">نظرات</h3>
 
@@ -176,54 +177,7 @@
                         <p class="text-gray-500 dark:text-gray-400">هنوز نظری ثبت نشده است.</p>
                     {% endif %}
                 </div>
-            </div>
-
-            <!-- SIDE BAR -->
-            <div class="top-2 lg:sticky w-full lg:w-1/4 space-y-5">
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-4">
-                    <h4 class="font-DanaMedium">جدیدترین مقالات : </h4>
-                    <ul class="space-y-4">
-                        {% for recent in recent_posts %}
-                            <li class="flex items-center gap-x-2">
-                                <img class="w-24 h-16 object-cover rounded-lg" src="{{ recent.image.url }}" alt="{{ recent.title }}">
-                                <a href="{{ recent.get_absolute_url }}" class="flex flex-col gap-y-2">
-                                    <p class="line-clamp-1">{{ recent.title }}</p>
-                                    <span class="flex items-center gap-x-1 text-sm text-gray-400">
-                                <svg class="w-4 h-4 mb-1">
-                                    <use href="#calendar"></use>
-                                </svg>
-                                {{ recent.created_at|date:"Y/m/d" }}
-                            </span>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <a href="{% url 'blogs:blogs' %}" class="py-1.5 gap-x-1 bg-blue-500 hover:bg-blue-600 flex items-center justify-center text-white rounded-lg transition-all">
-                        مشاهده بیشتر
-                        <svg class="w-4 h-4">
-                            <use href="#chevron-left"></use>
-                        </svg>
-                    </a>
-                </div>
-
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-4">
-                    <h4 class="font-DanaMedium">دسته بندی : </h4>
-                    <ul class="space-y-3">
-                        {% for category in categories %}
-                            <li class="flex justify-between items-center cursor-pointer group">
-                        <span class="flex items-center gap-x-1 group-hover:text-blue-500 transition-all">
-                            <p>{{ category.get_type_display }}</p>
-                            <svg class="w-4 h-4">
-                                <use href="#chevron-left"></use>
-                            </svg>
-                        </span>
-                                <span class="w-5 h-5 flex items-center justify-center rounded-lg text-white bg-blue-500 text-xs">
-                            {{ category.blogpost_set.count }}
-                        </span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+            -->
             </div>
         </section>
     </main>

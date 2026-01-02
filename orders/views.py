@@ -5,6 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
 from carts.models import *
 from .models import *
+from django.urls import reverse
+from django.http import HttpResponse
+from .zarinpal_service import create_payment, zarinpal
 ##########################################################################################
 class CreateOrderView(LoginRequiredMixin, View):
     def get(self, request):
@@ -18,10 +21,18 @@ class CreateOrderView(LoginRequiredMixin, View):
             messages.error(request, "سبد خرید شما خالی است.")
             return redirect("carts:cart_items")
 
+        # ✅ calculate total price from cart items
+        total_price = 0
+        for cart_item in cart.items.all():
+            product = cart_item.product
+            if product:
+                total_price += product.offer_price * cart_item.quantity
+
         # ✅ create a new order for this checkout
         order = Order.objects.create(
             user=request.user,
             paid_status=Order.Status.WAITING,
+            total_amount=total_price,
         )
 
         # ✅ copy cart items into the order
@@ -36,8 +47,41 @@ class CreateOrderView(LoginRequiredMixin, View):
         # ✅ delete the cart after creating the order
         cart.delete()
 
-        messages.success(request, f"سفارش شما با موفقیت ثبت شد. شماره سفارش : {order.factor_code}")
-        return redirect("orders:order_list")
+        # ✅ initiate payment with Zarinpal
+        callback_url = request.build_absolute_uri(
+            reverse("orders:verify_payment", args=[order.id])
+        )
+        result = create_payment(
+             amount=order.total_amount,
+             description=f"Order #{order.factor_code}",
+             callback_url=callback_url,
+             email=request.user.email,
+        )
+        if "url" in result:
+            return redirect(result["url"])
+        else:
+            return HttpResponse("Error creating payment: " + str(result))
+##########################################################################################
+class VerifyPaymentView(LoginRequiredMixin, View):
+    def get(self, request, order_id):
+        order = get_object_or_404(Order, id=order_id, user=request.user)
+        authority = request.GET.get("Authority")
+        status = request.GET.get("Status")
+        if status == "OK":
+            result = zarinpal.payment_gateway.verify({ 
+            "amount": order.total_amount,
+            "authority": authority,
+        })
+        if result.get("code") == 100:
+            order.paid_status = Order.Status.PAID
+            order.save()
+            messages.success(request, f"Payment successful! RefID: {result.get('ref_id')}")
+            return redirect("orders:order_detail", order_id=order.id)
+        else:
+            messages.error(request, f"Payment failed. Code: {result.get('code')}
+    else:
+        messages.error(request, "Transaction canceled by user.")
+    return redirect("orders:order_detail", order_id=order.id)
 ##########################################################################################
 class OrderDetailView(LoginRequiredMixin, View):
     def get(self, request, order_id):
