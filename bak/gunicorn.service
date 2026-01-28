@@ -1,0 +1,19 @@
+[Unit]
+Description=Gunicorn daemon for CLP Django project
+After=network.target
+
+[Service]
+User=clp
+Group=www-data
+WorkingDirectory=/home/clp
+Environment="DJANGO_SETTINGS_MODULE=clp.settings"
+Environment="PYTHONPATH=/home/clp"
+ExecStart=/home/clp/venv/bin/gunicorn \
+          --workers 3 \
+          --bind unix:/home/clp/run/gunicorn.sock \
+          --access-logfile /var/log/gunicorn/access.log \
+          --error-logfile /var/log/gunicorn/error.log \
+          clp.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
