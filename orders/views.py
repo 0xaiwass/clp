@@ -72,16 +72,16 @@ class VerifyPaymentView(LoginRequiredMixin, View):
             "amount": order.total_amount,
             "authority": authority,
         })
-        if result.get("code") == 100:
-            order.paid_status = Order.Status.PAID
-            order.save()
-            messages.success(request, f"Payment successful! RefID: {result.get('ref_id')}")
-            return redirect("orders:order_detail", order_id=order.id)
+            if result.get("code") == 100:
+                order.paid_status = Order.Status.PAID
+                order.save()
+                messages.success(request, f"Payment successful! RefID: {result.get('ref_id')}")
+                return redirect("orders:order_detail", order_id=order.id)
+            else:
+                messages.error(request, f"Payment failed. Code: {result.get('code')}")
         else:
-            messages.error(request, f"Payment failed. Code: {result.get('code')}")
-    else:
-        messages.error(request, "Transaction canceled by user.")
-    return redirect("orders:order_detail", order_id=order.id)
+            messages.error(request, "Transaction canceled by user.")
+        return redirect("orders:order_detail", order_id=order.id)
 ##########################################################################################
 class OrderDetailView(LoginRequiredMixin, View):
     def get(self, request, order_id):

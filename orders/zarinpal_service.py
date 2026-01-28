@@ -1,6 +1,6 @@
 from django.conf import settings
 from zarinpal import ZarinPal
-from utils.Config import Config
+from zarinpal import Config
 
 config = Config(
     merchant_id=settings.ZARINPAL_MERCHANT_ID,
